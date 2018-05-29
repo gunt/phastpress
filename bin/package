@@ -21,6 +21,9 @@ cd dist/phastpress
 
 $composer install
 
+npm --prefix admin-front-end/ install
+npm --prefix admin-front-end/ run build
+
 find -name .git\* -print0 | xargs -0 rm -rf
 xargs rm -rf < .distignore
 

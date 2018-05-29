@@ -2,7 +2,8 @@
 
 function phastpress_get_default_config() {
     return [
-        'enabled' => 'admin',
+        'enabled' => true,
+        'admin-only' => true,
         'pathinfo-query-format' => true,
         'footer-link' => false,
         'img-optimization-tags' => true,
@@ -44,18 +45,11 @@ function phastpress_save_config() {
             $settings[$key] = true;
         } else if ($_POST[$post_key] == 'off') {
             $settings[$key] = false;
-        } else if ($_POST[$post_key] == 'admin') {
-            $settings[$key] = 'admin';
         }
     }
     update_option(PHASTPRESS_SETTINGS_OPTION, $settings);
     update_option(PHASTPRESS_ACTIVATION_AUTO_CONFIGURATION_FLAG, false);
     phastpress_generate_service_config();
-}
-
-function phastpress_reset_config() {
-    check_admin_referer(PHASTPRESS_NONCE_NAME);
-    delete_option(PHASTPRESS_SETTINGS_OPTION);
 }
 
 function phastpress_auto_configure_script() {
@@ -87,11 +81,6 @@ function phastpress_auto_configure_script() {
     return '<script>(function (imageUrl, nonce) {'
         . file_get_contents(__DIR__ . '/phastpress-auto-config.js')
         . "})('$service_image_url', '$nonce')</script>";
-}
-
-function phastpress_get_plugin_version() {
-    $plugin_info = get_file_data(__DIR__ . '/../phastpress.php', ['Version' => 'Version']);
-    return $plugin_info['Version'];
 }
 
 function phastpress_generate_service_config() {
@@ -145,13 +134,7 @@ function phastpress_get_phast_user_config() {
     $phast_config = phastpress_generate_service_config_if_not_exists();
 
     $plugin_config = phastpress_get_config();
-    if ($plugin_config['enabled'] === true) {
-        $phast_config['switches']['phast'] = true;
-    } else if ($plugin_config['enabled'] === false) {
-        $phast_config['switches']['phast'] = false;
-    } else {
-        $phast_config['switches']['phast'] = current_user_can('administrator');
-    }
+    $phast_config['switches']['phast'] = phastpress_should_deploy_filters($plugin_config);
 
     $setting2filters = [
         'img-optimization-tags' => ['ImagesOptimizationService\Tags'],
@@ -181,6 +164,16 @@ function phastpress_get_phast_user_config() {
     }
 
     return $phast_config;
+}
+
+function phastpress_should_deploy_filters(array $plugin_config) {
+    if (!$plugin_config['enabled']) {
+        return false;
+    }
+    if (!$plugin_config['admin-only']) {
+        return true;
+    }
+    return current_user_can('administrator');
 }
 
 function phastpress_update_admin_email() {

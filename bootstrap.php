@@ -17,6 +17,12 @@ add_action('wp_ajax_phastpress_dismiss_notice', function () {
 add_action('wp_ajax_phastpress_save_config', function () {
     require_once __DIR__ . '/functions.php';
     phastpress_save_config();
+    wp_send_json(phastpress_get_admin_panel_data());
+});
+
+add_action('wp_ajax_phastpress_get_admin_panel_data', function () {
+    require_once __DIR__ . '/functions.php';
+    wp_send_json(phastpress_get_admin_panel_data());
 });
 
 add_action('admin_notices', function () {
@@ -30,22 +36,6 @@ add_filter('plugin_action_links_' . plugin_basename(__FILE__), function ($links)
     array_unshift($links, phastpress_get_settings_link());
     return $links;
 });
-
-add_action('admin_menu', function () {
-    require_once __DIR__ . '/functions.php';
-    add_options_page(
-        __('PhastPress', 'phastpress'),
-        __('PhastPress', 'phastpress'),
-        'manage_options',
-        'phast-press',
-        'phastpress_render_settings'
-    );
-}, 0);
-
-add_action('admin_init', function () {
-    wp_register_style('phastpress-styles', plugins_url('admin-style.css', __FILE__), [], '0.1');
-});
-
 
 add_action('plugins_loaded', function () {
     require_once __DIR__ . '/functions.php';
