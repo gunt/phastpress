@@ -25,19 +25,19 @@ function phastpress_register_menu() {
 
     $plugin_version = phastpress_get_plugin_version();
     if (phastpress_is_dev()) {
-        wp_register_script('phastpress-app', "http://localhost:8080/app.js", [], $plugin_version, true);
+        wp_register_script('phastpress-app', "http://localhost:8080/app.js", array(), $plugin_version, true);
     } else {
         $static = plugin_dir_url(PHASTPRESS_PLUGIN_FILE) . 'static';
-        wp_register_style('phastpress-style', "$static/css/app.css", [], $plugin_version);
-        wp_register_script('phastpress-manifest', "$static/js/manifest.js", [], $plugin_version, true);
-        wp_register_script('phastpress-vendor', "$static/js/vendor.js", ['phastpress-manifest'], $plugin_version, true);
+        wp_register_style('phastpress-style', "$static/css/app.css", array(), $plugin_version);
+        wp_register_script('phastpress-manifest', "$static/js/manifest.js", array(), $plugin_version, true);
+        wp_register_script('phastpress-vendor', "$static/js/vendor.js", array('phastpress-manifest'), $plugin_version, true);
         wp_register_script(
             'phastpress-app',
             "$static/js/app.js",
-            [
+            array(
                 'phastpress-manifest',
                 'phastpress-vendor'
-            ],
+            ),
             $plugin_version,
             true
         );
