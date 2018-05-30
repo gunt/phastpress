@@ -25,7 +25,7 @@ function phastpress_register_menu() {
 
     $plugin_version = phastpress_get_plugin_version();
     if (phastpress_is_dev()) {
-        wp_register_script('phastpress-app', "http://localhost:8080/app.js", array(), $plugin_version, true);
+        wp_register_script('phastpress-app', "http://localhost:25903/app.js", array(), $plugin_version, true);
     } else {
         $static = plugin_dir_url(PHASTPRESS_PLUGIN_FILE) . 'static';
         wp_register_style('phastpress-style', "$static/css/app.css", array(), $plugin_version);
