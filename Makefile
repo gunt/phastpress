@@ -12,6 +12,9 @@ publish :
 	$(MAKE) dist
 	bin/publish
 
+run : admin-front-end/node_modules
+	cd admin-front-end && npm run dev
+
 
 vendor/autoload.php : vendor/bin/composer composer.json composer.lock
 	vendor/bin/composer install
@@ -25,6 +28,6 @@ vendor/bin/composer :
 	chmod +x $@~
 	mv $@~ $@
 
-admin-front-end/node_modules : package.json package-lock.json
+admin-front-end/node_modules : admin-front-end/package.json admin-front-end/package-lock.json
 	cd admin-front-end && npm install
 	touch $@
