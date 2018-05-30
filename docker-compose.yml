@@ -8,12 +8,32 @@ services:
             MYSQL_DATABASE: wordpress
             MYSQL_USER: wordpress
             MYSQL_PASSWORD: wordpress
+        networks:
+            default:
+                ipv4_address: 172.21.0.2
     web:
         depends_on:
             - db
         build: ./docker
         volumes:
+            - www:/var/www/localhost/htdocs
             - ./:/data
+            - ./docker/apache2.conf:/etc/apache2/conf.d/local.conf
+            - ./docker/apache2-proxy.conf:/etc/apache2/conf.d/proxy.conf
+        networks:
+            default:
+                ipv4_address: 172.21.0.3
+    php52:
+        image: tommylau/php-5.2:latest
+        volumes:
+            - www:/var/www/localhost/htdocs
+            - ./:/data
+        networks:
+            default:
+                ipv4_address: 172.21.0.4
+
+volumes:
+    www:
 
 networks:
     default:
