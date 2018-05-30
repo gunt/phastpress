@@ -25,5 +25,6 @@ vendor/bin/composer :
 	chmod +x $@~
 	mv $@~ $@
 
-admin-front-end/node_modules :
+admin-front-end/node_modules : package.json package-lock.json
 	cd admin-front-end && npm install
+	touch $@
