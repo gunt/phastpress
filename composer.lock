@@ -4,15 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "4c42164e4b747f06408d960ccd201777",
+    "content-hash": "3debc088c803163afcffb1cad8b5fdc2",
     "packages": [
         {
             "name": "kiboit/phast",
-            "version": "1.5.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "ssh://git@github.com/kiboit/phast",
-                "reference": "0ad8ef01adcb08c262e22dd61579c20010698007"
+                "reference": "3edd4f84da735644fcbf6b15b5fb87a756d26ef4"
             },
             "require": {
                 "mrclay/jsmin-php": "2.3.2",
@@ -41,7 +41,7 @@
                 "AGPL-3.0-or-later"
             ],
             "description": "A toolbox for optimizing web page performance",
-            "time": "2018-05-29T14:41:30+00:00"
+            "time": "2018-05-31T08:24:44+00:00"
         },
         {
             "name": "mrclay/jsmin-php",
@@ -99,7 +99,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "kiboit/phast": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

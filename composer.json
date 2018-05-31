@@ -10,7 +10,7 @@
     }
   ],
   "require": {
-    "kiboit/phast": "^1.2.0"
+    "kiboit/phast": "dev-master"
   },
   "minimum-stability": "dev",
   "config": {
