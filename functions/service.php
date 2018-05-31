@@ -1,9 +1,12 @@
 <?php
 
+use Kibo\PhastPlugins\RequestsHTTPClient;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 require_once __DIR__ . '/../Kibo/PhastPlugins/ImageAPIClient/Factory.php';
 require_once __DIR__ . '/../Kibo/PhastPlugins/ImageAPIClient/Filter.php';
 require_once __DIR__ . '/../Kibo/PhastPlugins/ImageAPIClient/Diagnostics.php';
+require_once __DIR__ . '/../Kibo/PhastPlugins/RequestsHTTPClient.php';
 
 
 function phastpress_get_cache_root_candidates() {
@@ -78,6 +81,8 @@ function phastpress_get_cache_stored_service_config() {
 
 function phastpress_get_service_config() {
     $config = phastpress_get_cache_stored_service_config();
+
+    $config['httpClient'] = RequestsHTTPClient::class;
 
     $config['cache'] = ['cacheRoot' => phastpress_get_cache_root()];
 
